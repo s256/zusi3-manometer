@@ -20,11 +20,11 @@
 // 1st value in each subsequent row must be > 1st value in previous row
 // The delay in the last row determines the maximum angular velocity.
 static unsigned short defaultAccelTable[][2] = {
-    {20, 2200},
-    {50, 1800},
-    {100, 1600},
-    {150, 1300},
-    {300, 1200}};
+    {20, 1500},
+    {50, 1300},
+    {100, 1200},
+    {150, 1100},
+    {300, 1000}};
 #define DEFAULT_ACCEL_TABLE_SIZE (sizeof(defaultAccelTable) / sizeof(*defaultAccelTable))
 
 // experimentation suggests that 400uS is about the step limit

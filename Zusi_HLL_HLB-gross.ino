@@ -14,9 +14,7 @@
 // For motors connected to digital pins 4,5,6,7
 SwitecX25 motor_yellow(STEP_BIG_YELLOW, 16, 17, 18, 19); // SMALL GAUGE METER
 SwitecX25 motor_red(STEP_BIG_RED, 32, 33, 26, 27);		 // SMALL GAUGE METER
-SwitecX25 motor_yellow(STEP_BIG, 16, 17, 18, 19); // SMALL GAUGE METER
-SwitecX25 motor_red(STEP_BIG, 32, 33, 26, 27);	  // SMALL GAUGE METER
-float foo;
+float Steps;
 //Bitte die #define der Zusi3Schnittstelle.h nutzen
 #if defined(ESP8266_Wifi) || defined(ESP32_Wifi)
 
@@ -96,12 +94,12 @@ void loop()
 					{
 						motor_yellow.setPosition((int)(attr->getDATAAsFloat() * STEP_BIG_YELLOW) / 12);
 						motor_yellow.updateBlocking();
-						foo = ((attr->getDATAAsFloat() * STEP_BIG) / 12);
+						Steps = ((attr->getDATAAsFloat() * STEP_BIG_YELLOW) / 12);
 						Serial.print("Druck_Hauptluftleitung: ");
 						Serial.print((attr->getDATAAsFloat()));
 						Serial.println(" bar");
 						Serial.print("Steps: ");
-						Serial.println(foo);
+						Serial.println(Steps);
 					}
 				}
 				for (int j = 0; j < subNode->getAttribute()->size(); j++)
@@ -116,7 +114,7 @@ void loop()
 						Serial.print(attr->getDATAAsFloat());
 						Serial.println(" bar");
 						Serial.print("Steps: ");
-						Serial.println(foo);
+						Serial.println(Steps);
 					}
 				}
 			}

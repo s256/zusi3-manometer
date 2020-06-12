@@ -8,7 +8,7 @@
 #include "SwitecX25.h"
 
 // standard X25.168 range 315 degrees at 1/3 degree steps
-#define STEP_BIG (900) // BIG GAUGE METER
+#define STEP_BIG (880) // BIG GAUGE METER
 
 //#define STEP_SMALL (355)
 // For motors connected to digital pins 4,5,6,7

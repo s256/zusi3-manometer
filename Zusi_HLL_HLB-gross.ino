@@ -8,10 +8,12 @@
 #include "SwitecX25.h"
 
 // standard X25.168 range 315 degrees at 1/3 degree steps
-#define STEP_BIG (880) // BIG GAUGE METER
-
+#define STEP_BIG_RED (870)	  // BIG RED GAUGE METER
+#define STEP_BIG_YELLOW (880) // BIG YELLOW GAUGE METER
 //#define STEP_SMALL (355)
 // For motors connected to digital pins 4,5,6,7
+SwitecX25 motor_yellow(STEP_BIG_YELLOW, 16, 17, 18, 19); // SMALL GAUGE METER
+SwitecX25 motor_red(STEP_BIG_RED, 32, 33, 26, 27);		 // SMALL GAUGE METER
 SwitecX25 motor_yellow(STEP_BIG, 16, 17, 18, 19); // SMALL GAUGE METER
 SwitecX25 motor_red(STEP_BIG, 32, 33, 26, 27);	  // SMALL GAUGE METER
 float foo;
@@ -92,7 +94,7 @@ void loop()
 					Attribute *attr = subNode->getAttribute()->get(j);
 					if (attr->getIDAsInt() == Druck_Hauptluftleitung)
 					{
-						motor_yellow.setPosition((int)(attr->getDATAAsFloat() * STEP_BIG) / 12);
+						motor_yellow.setPosition((int)(attr->getDATAAsFloat() * STEP_BIG_YELLOW) / 12);
 						motor_yellow.updateBlocking();
 						foo = ((attr->getDATAAsFloat() * STEP_BIG) / 12);
 						Serial.print("Druck_Hauptluftleitung: ");
@@ -107,8 +109,8 @@ void loop()
 					Attribute *attr = subNode->getAttribute()->get(j);
 					if (attr->getIDAsInt() == Druck_Hauptluftbehaelter)
 					{
-						foo = ((attr->getDATAAsFloat() * STEP_BIG) / 12);
-						motor_red.setPosition((int)(attr->getDATAAsFloat() * STEP_BIG) / 12);
+						Steps = ((attr->getDATAAsFloat() * STEP_BIG_RED) / 12);
+						motor_red.setPosition((int)(attr->getDATAAsFloat() * STEP_BIG_RED) / 12);
 						motor_red.updateBlocking();
 						Serial.print("Druck_Hauptluftbehaelter: ");
 						Serial.print(attr->getDATAAsFloat());

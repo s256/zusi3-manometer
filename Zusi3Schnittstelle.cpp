@@ -181,13 +181,13 @@ void Zusi3Schnittstelle::ACK_HELLO()
 		Node *befehl_ACK_HELLO = verbindungsaufbau->getNodeByID(0x02);
 		if (befehl_ACK_HELLO != NULL)
 		{
-			int client_Aktzeptiert = befehl_ACK_HELLO->getAttributeByID(3)->getDATAAsInt();
+			int client_Akzeptiert = befehl_ACK_HELLO->getAttributeByID(3)->getDATAAsInt();
 			versionZusi = befehl_ACK_HELLO->getAttributeByID(1)->getDATAAsString();
 			verbindungsinfoZusi = befehl_ACK_HELLO->getAttributeByID(2)->getDATAAsString();
 			if (debugOutput)
 			{
-				Serial.print("client_Aktzeptiert: ");
-				Serial.println(client_Aktzeptiert);
+				Serial.print("client_Akzeptiert: ");
+				Serial.println(client_Akzeptiert);
 
 				Serial.print("zusi_version: ");
 				Serial.println(versionZusi);
@@ -256,14 +256,14 @@ void Zusi3Schnittstelle::ACK_NEEDED_DATA()
 		Node *befehl_ACK_NEEDED_DATA = Client_Anwendung_02->getNodeByID(0x04);
 		if (befehl_ACK_NEEDED_DATA != NULL)
 		{
-			int befehl_Aktzeptiert = befehl_ACK_NEEDED_DATA->getAttributeByID(1)->getDATAAsInt();
-			if (befehl_Aktzeptiert == 0)
+			int befehl_Akzeptiert = befehl_ACK_NEEDED_DATA->getAttributeByID(1)->getDATAAsInt();
+			if (befehl_Akzeptiert == 0)
 			{
-				Serial.println("Befehl aktzeptiert");
+				Serial.println("Befehl akzeptiert");
 			}
 			else
 			{
-				Serial.println("Befehl nicht aktzeptiert");
+				Serial.println("Befehl nicht akzeptiert");
 			}
 		}
 	}

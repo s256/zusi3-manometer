@@ -7,6 +7,15 @@ Tested hardware: ESP32  in combination with https://forum.zusi.de/viewtopic.php?
 
 Use a level converter and seperate power delivery to use the stepper motors.
 
+Under *./resources/* you can find several documents, like datasheets or the official ZuSi documentation including the TCP API.
+
+Under *./cad/* you can find a PCB for the ESP32 including level converter made with Fritzing.
+
+## To-Do: Seperate power delivery for the stepper motors. 
+The motors are currently powered by the ESP, putting seperate 5V Input to the level converter didn't change that for some reason. I didn't have the time to check for the reason. I expect the motors to destroy the level converter because of the inductive power from the coils going back into the level converter (and maybe the ESP!). So be warned and use with caution.
+
+
+
 # ESP32 Manometer für Zusi 3
 
 Basierend auf https://github.com/Basti189/Zusi3Schnittstelle and https://github.com/clearwater/SwitecX25.
@@ -15,12 +24,16 @@ Der Code und die Einbindung der Libs sind Chaos, aber es läuft.
 
 Eingesetzte Hardware: ESP32  mit https://forum.zusi.de/viewtopic.php?f=25&t=13044&p=311390
 
-Um die Last der Stepper-Motoren nicht am ESP anliegen zu haben, habe ich Level converter von 3.3V auf 5V eingesetzt die ihre Spannungsversorgung direkt vom Netzteil beziehen und nicht vom ESP.
+Für den richtigen Pegel an den Motoren kommen Pegelwandler 3,3V <-> 5V zum Einsatz.
 
+Unter *./resources/* finden sich Dokumente, wie Datenblätter und die ZUSI Dokumentation inkl. TCP API.
 
+Unter *./CAD/* findet sich ein mit Fritzing erstelltes PCB.
 
-
-
+## To-Do: Stromversorgung der Motoren vom ESP trennen. Aktuell werden die Motoren mittel Pegelwandler vom ESP versorgt. 
+Vermutlich kommt es hier zu induktiven Strömen der Motoren, welche die Pegelwandler (N-Mosfet) zerstören können und eventuell sogar den ESP!
+Eine separate Stromzufuhr über den HV Pin der Pegelwandler hat daran nichts geändert, ich hatte aber noch keine Zeit mit die Ursache hierfür anzuschauen.
+Benutzung also auf eigene Gefahr. 
 
 
 # Zusi3Schnittstelle

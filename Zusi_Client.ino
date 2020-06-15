@@ -1,25 +1,46 @@
 /*
-* Author:  Sebastian Wolf
-* Created:  August 2018
+* Zusi TCP Client to control pressure gauges
+* Using two VID28 stepper motors with the SwitecX25 lib
 */
 
 #include <Arduino.h>
 #include "Zusi3Schnittstelle.h"
 #include "SwitecX25.h"
 
+// Active the destined motor configuration
+
+// Either the "big" gauge
+#define Hauptluft
+
+// or the small gauge
+//#define Bremsdruckzylinder
+
 // standard X25.168 range 315 degrees at 1/3 degree steps
-#define STEP_BIG_RED (870)	  // BIG RED GAUGE METER
-#define STEP_BIG_YELLOW (880) // BIG YELLOW GAUGE METER
+#if !(defined(Hauptluft) && defined(Bremsdruckzylinder))
+
+#if defined(Hauptluft)
+// Defined Steps for the BIG gauge meter
+#define STEP_RED (870)
+#define STEP_YELLOW (880)
+
+#else if defined(Bremsdruckzylinder)
+// Defined Steps for the SMALL gauge meter
+#define STEP_RED (810)
+#define STEP_YELLOW (810)
+
+#endif
+#endif
 //#define STEP_SMALL (355)
 // For motors connected to digital pins 4,5,6,7
-SwitecX25 motor_yellow(STEP_BIG_YELLOW, 16, 17, 18, 19); // SMALL GAUGE METER
-SwitecX25 motor_red(STEP_BIG_RED, 32, 33, 26, 27);		 // SMALL GAUGE METER
+SwitecX25 motor_yellow(STEP_YELLOW, 16, 17, 18, 19);
+SwitecX25 motor_red(STEP_RED, 32, 33, 26, 27);
 float Steps;
+const int ledPin = 5;
 //Bitte die #define der Zusi3Schnittstelle.h nutzen
 #if defined(ESP8266_Wifi) || defined(ESP32_Wifi)
 
-const char *ssid = "InternetOfShit";
-const char *password = "Atlas2012";
+const char *ssid = "WIFI-NAME";
+const char *password = "SuperSecretPassword";
 #endif
 #ifdef ESP32_Ethernet
 //nothing
@@ -41,6 +62,7 @@ void setup()
 
 	motor_yellow.zero();
 	motor_red.zero();
+	pinMode(ledPin, OUTPUT);
 
 #if defined(ESP8266_Wifi) || defined(ESP32_Wifi)
 	Serial.print("Verbinde mit ");
@@ -59,8 +81,11 @@ void setup()
 	Serial.print("IP-Adresse: ");
 	Serial.println(WiFi.localIP());
 #endif
-
-	zusi = new Zusi3Schnittstelle("192.168.0.2", 1436, "ESP32-HLL-HLB");
+#if defined(Hauptluft)
+	zusi = new Zusi3Schnittstelle("192.168.0.2", 1436, "ESP32-HLL-HLB", 5);
+#else if defined(Bremsdruckzylinder)
+	zusi = new Zusi3Schnittstelle("192.168.0.2", 1436, "ESP32-Bremsdruckzylinder");
+#endif
 	zusi->reqFstAnz(Druck_Hauptluftleitung);
 	zusi->reqFstAnz(Druck_Hauptluftbehaelter);
 	zusi->requestFuehrerstandsbedienung(false);
@@ -78,7 +103,7 @@ void setup()
 
 void loop()
 {
-
+	digitalWrite(ledPin, HIGH); // turn on the LED
 	Node *node = zusi->update();
 	if (node != NULL)
 	{
@@ -87,14 +112,15 @@ void loop()
 			Node *subNode = node->getNodes()->get(i);
 			if (subNode->getIDAsInt() == 0x0A)
 			{
+#if defined(Hauptluft)
 				for (int j = 0; j < subNode->getAttribute()->size(); j++)
 				{
 					Attribute *attr = subNode->getAttribute()->get(j);
 					if (attr->getIDAsInt() == Druck_Hauptluftleitung)
 					{
-						motor_yellow.setPosition((int)(attr->getDATAAsFloat() * STEP_BIG_YELLOW) / 12);
+						motor_yellow.setPosition((int)(attr->getDATAAsFloat() * STEP_YELLOW) / 12);
 						motor_yellow.updateBlocking();
-						Steps = ((attr->getDATAAsFloat() * STEP_BIG_YELLOW) / 12);
+						Steps = ((attr->getDATAAsFloat() * STEP_YELLOW) / 12);
 						Serial.print("Druck_Hauptluftleitung: ");
 						Serial.print((attr->getDATAAsFloat()));
 						Serial.println(" bar");
@@ -107,8 +133,8 @@ void loop()
 					Attribute *attr = subNode->getAttribute()->get(j);
 					if (attr->getIDAsInt() == Druck_Hauptluftbehaelter)
 					{
-						Steps = ((attr->getDATAAsFloat() * STEP_BIG_RED) / 12);
-						motor_red.setPosition((int)(attr->getDATAAsFloat() * STEP_BIG_RED) / 12);
+						Steps = ((attr->getDATAAsFloat() * STEP_RED) / 12);
+						motor_red.setPosition((int)(attr->getDATAAsFloat() * STEP_RED) / 12);
 						motor_red.updateBlocking();
 						Serial.print("Druck_Hauptluftbehaelter: ");
 						Serial.print(attr->getDATAAsFloat());
@@ -117,6 +143,25 @@ void loop()
 						Serial.println(Steps);
 					}
 				}
+#else if defined(Bremsdruckzylinder)
+				for (int j = 0; j < subNode->getAttribute()->size(); j++)
+				{
+					Attribute *attr = subNode->getAttribute()->get(j);
+					if (attr->getIDAsInt() == Druck_Bremszylinder)
+					{
+						motor_yellow.setPosition((int)(attr->getDATAAsFloat() * STEP_YELLOW) / 10);
+						motor_red.setPosition((int)(attr->getDATAAsFloat() * STEP_RED) / 10);
+						motor_yellow.updateBlocking();
+						motor_red.updateBlocking();
+						Steps = ((attr->getDATAAsFloat() * STEP_RED) / 10);
+						Serial.print("Druck_Bremszylinder: ");
+						Serial.print((attr->getDATAAsFloat()));
+						Serial.println(" bar");
+						Serial.print("Steps: ");
+						Serial.println(Steps);
+					}
+				}
+#endif
 			}
 		}
 	}

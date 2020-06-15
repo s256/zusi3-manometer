@@ -3,6 +3,6 @@
     "configuration": "FlashFreq=80,UploadSpeed=921600",
     "port": "/dev/ttyUSB0",
     "programmer": "ArduinoISP",
-    "sketch": "Zusi_HLL_HLB-gross.ino",
+    "sketch": "Zusi_Client.ino",
     "output": "./build/"
 }

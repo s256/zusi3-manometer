@@ -7,6 +7,13 @@
 #include "Zusi3Schnittstelle.h"
 #include "SwitecX25.h"
 
+/*	Enbable Test Mode for debugging
+*		Simple test mode to debug motors, amount of steps and needle position
+*		The test-mode will no connect to Zusi, it will just move the motors and test the LED
+*		You need to define the maximum steps for the destined motor configuration like in production use.
+*/
+//#define TestMode
+
 // Active the destined motor configuration
 
 // Either the "big" gauge
@@ -63,6 +70,9 @@ void setup()
 	motor_yellow.zero();
 	motor_red.zero();
 	pinMode(ledPin, OUTPUT);
+#if defined(TestMode)
+	Serial.print("Starting Test-Mode");
+#else
 
 #if defined(ESP8266_Wifi) || defined(ESP32_Wifi)
 	Serial.print("Verbinde mit ");
@@ -99,10 +109,25 @@ void setup()
 		delay(1000);
 	}
 	Serial.println("Verbunden mit Zusi");
+#endif
 }
 
 void loop()
 {
+#if defined(TestMode)
+	Serial.println("Set needle to zero and disable LED");
+	digitalWrite(ledPin, LOW); // turn on the LED
+	motor_yellow.zero();
+	motor_red.zero();
+	delay(500);
+	Serial.println("Set needle to half of maximum steps and enable LED");
+	digitalWrite(ledPin, HIGH); // turn on the LED
+	motor_red.setPosition(STEP_RED / 2);
+	motor_red.updateBlocking();
+	motor_yellow.setPosition(STEP_YELLOW / 2);
+	motor_yellow.updateBlocking();
+	delay(500);
+#else
 	digitalWrite(ledPin, HIGH); // turn on the LED
 	Node *node = zusi->update();
 	if (node != NULL)
@@ -165,4 +190,5 @@ void loop()
 			}
 		}
 	}
+#endif
 }

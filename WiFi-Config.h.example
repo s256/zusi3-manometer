@@ -1,0 +1,6 @@
+/*  
+*   Simple config file for WiFi Credentials put into .gitignore
+*/
+
+const char *ssid = "WIFI-NAME";
+const char *password = "SuperSecretPassword";

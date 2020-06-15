@@ -45,9 +45,7 @@ float Steps;
 const int ledPin = 5;
 //Bitte die #define der Zusi3Schnittstelle.h nutzen
 #if defined(ESP8266_Wifi) || defined(ESP32_Wifi)
-
-const char *ssid = "WIFI-NAME";
-const char *password = "SuperSecretPassword";
+#include "WiFi-Config.h"
 #endif
 #ifdef ESP32_Ethernet
 //nothing
@@ -56,8 +54,7 @@ const char *password = "SuperSecretPassword";
 byte *mac = new byte[6]{0x8c, 0x16, 0x45, 0x82, 0xfc, 0x72};
 #endif
 #ifdef AVR_Wifi
-const char *ssid = "SSID";
-const char *password = "PASSWORD";
+#include "WiFi-Config.h"
 #endif
 
 Zusi3Schnittstelle *zusi;

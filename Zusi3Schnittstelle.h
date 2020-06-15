@@ -38,8 +38,8 @@
 
 class Zusi3Schnittstelle
 {
-  public:
-	Zusi3Schnittstelle(String ip, int port, String clientName);
+public:
+	Zusi3Schnittstelle(String ip, int port, String clientName, int ledPin);
 	~Zusi3Schnittstelle();
 	boolean connect();
 	void close();
@@ -54,7 +54,7 @@ class Zusi3Schnittstelle
 	String getVerbindungsinfo();
 	Node *update();
 
-  private:
+private:
 	void HELLO();
 	void ACK_HELLO();
 	void NEEDED_DATA();
@@ -90,6 +90,7 @@ class Zusi3Schnittstelle
 	String clientName;
 	String ip;
 	int port;
+	int ledPin;
 	String version = "1.0";
 
 	boolean debugOutput = false;

@@ -5,11 +5,12 @@
 
 #include "Zusi3Schnittstelle.h"
 
-Zusi3Schnittstelle::Zusi3Schnittstelle(String ip, int port, String clientName)
+Zusi3Schnittstelle::Zusi3Schnittstelle(String ip, int port, String clientName, int ledPin)
 {
 	this->ip = ip;
 	this->port = port;
 	this->clientName = clientName;
+	this->ledPin = ledPin;
 #if defined(ESP8266_Wifi) || defined(ESP32_Wifi)
 	client = new WiFiClient();
 #endif
@@ -118,6 +119,7 @@ Node *Zusi3Schnittstelle::update()
 	}
 	if (!client->connected())
 	{
+		digitalWrite(ledPin, LOW);
 		if (debugOutput)
 		{
 			Serial.print("Verbindungsaufbau (");

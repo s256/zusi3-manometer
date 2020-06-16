@@ -42,7 +42,7 @@
 SwitecX25 motor_yellow(STEP_YELLOW, 16, 17, 18, 19);
 SwitecX25 motor_red(STEP_RED, 32, 33, 26, 27);
 float Steps;
-const int ledPin = 5;
+const int ledPin = 13;
 //Bitte die #define der Zusi3Schnittstelle.h nutzen
 #if defined(ESP8266_Wifi) || defined(ESP32_Wifi)
 #include "WiFi-Config.h"

@@ -117,10 +117,12 @@ void loop()
 	motor_yellow.zero();
 	motor_red.zero();
 	delay(500);
-	Serial.println("Set needle to half of maximum steps and enable LED");
+	Serial.println("Set red needle to half of maximum steps and enable LED");
 	digitalWrite(ledPin, HIGH); // turn on the LED
 	motor_red.setPosition(STEP_RED / 2);
 	motor_red.updateBlocking();
+	delay(500);
+	Serial.println("Set yellow needle to half of maximum");
 	motor_yellow.setPosition(STEP_YELLOW / 2);
 	motor_yellow.updateBlocking();
 	delay(500);

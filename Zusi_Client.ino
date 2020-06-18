@@ -90,11 +90,12 @@ void setup()
 #endif
 #if defined(Hauptluft)
 	zusi = new Zusi3Schnittstelle(ZuSi_Server, 1436, "ESP32-HLL-HLB", ledPin);
-#else if defined(Bremsdruckzylinder)
-	zusi = new Zusi3Schnittstelle(ZuSi_Server, 1436, "ESP32-Bremsdruckzylinder", ledPin);
-#endif
 	zusi->reqFstAnz(Druck_Hauptluftleitung);
 	zusi->reqFstAnz(Druck_Hauptluftbehaelter);
+#else if defined(Bremsdruckzylinder)
+	zusi = new Zusi3Schnittstelle(ZuSi_Server, 1436, "ESP32-Bremsdruckzylinder", ledPin);
+	zusi->reqFstAnz(Druck_Bremszylinder);
+#endif
 	zusi->requestFuehrerstandsbedienung(false);
 	zusi->requestProgrammdaten(false);
 	uint32_t i = 0;

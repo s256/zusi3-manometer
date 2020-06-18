@@ -74,10 +74,10 @@ pcb_seam_height      =  4;
 //            'false' if not
 pcb_holes = [
 // [ [     x,      y], touch-wall  , bottom, top ],
-   [ [ 24,  34.05], NORTH + EAST, true  , true],
+   [ [ 22.5,  33.5], NORTH + EAST, true  , true],
    [ [-31,  37.05], NORTH + WEST, true  , true],
    [ [ 31, -37.05], SOUTH + EAST, true  , true],
-   [ [-24, -34.05], SOUTH + WEST, true  , true]
+   [ [-22.5, -33.5], SOUTH + WEST, true  , true]
 ];
 
 /****************************************************************
@@ -111,7 +111,7 @@ module components_negative() {
                    -0.55*INCH/1-0.25*INCH, 
                    4-0.15*INCH/2])
         {
-            cube([14,0.7*INCH,0.7*INCH]);
+            cube([14,0.5*INCH,0.7*INCH]);
         }
     }
 }

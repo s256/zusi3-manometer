@@ -4,3 +4,4 @@
 
 const char *ssid = "WIFI-NAME";
 const char *password = "SuperSecretPassword";
+String ZuSi_Server = "127.0.0.1";

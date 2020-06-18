@@ -89,9 +89,9 @@ void setup()
 	Serial.println(WiFi.localIP());
 #endif
 #if defined(Hauptluft)
-	zusi = new Zusi3Schnittstelle("192.168.0.2", 1436, "ESP32-HLL-HLB", 5);
+	zusi = new Zusi3Schnittstelle(ZuSi_Server, 1436, "ESP32-HLL-HLB", ledPin);
 #else if defined(Bremsdruckzylinder)
-	zusi = new Zusi3Schnittstelle("192.168.0.2", 1436, "ESP32-Bremsdruckzylinder");
+	zusi = new Zusi3Schnittstelle(ZuSi_Server, 1436, "ESP32-Bremsdruckzylinder", ledPin);
 #endif
 	zusi->reqFstAnz(Druck_Hauptluftleitung);
 	zusi->reqFstAnz(Druck_Hauptluftbehaelter);
@@ -100,12 +100,16 @@ void setup()
 	uint32_t i = 0;
 	while (!zusi->connect())
 	{
-		Serial.print("Verbindung zu Zusi fehlgeschlagen (");
+		Serial.print("Verbindung zu Zusi(");
+		Serial.print(ZuSi_Server);
+		Serial.print(") fehlgeschlagen (");
 		Serial.print(++i);
 		Serial.println(")");
 		delay(1000);
 	}
-	Serial.println("Verbunden mit Zusi");
+	Serial.print("Verbunden mit Zusi (");
+	Serial.print(ZuSi_Server);
+	Serial.println(")");
 #endif
 }
 

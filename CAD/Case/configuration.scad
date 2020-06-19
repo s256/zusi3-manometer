@@ -108,7 +108,7 @@ module components_negative() {
             cube([12,10.5,8.4]);
         }
         translate([-30-12,
-                   -0.55*INCH/1-0.25*INCH, 
+                   -0.38*INCH/1-0.25*INCH, 
                    4-0.15*INCH/2])
         {
             cube([14,0.5*INCH,0.7*INCH]);

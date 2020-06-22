@@ -31,7 +31,7 @@ boolean Zusi3Schnittstelle::connect()
 	boolean state = client->connect(ip, port);
 #endif
 #ifdef ESP32_Wifi
-	char constCharIP[sizeof(ip)];
+	char constCharIP[sizeof(ip) + 2];
 	ip.toCharArray(constCharIP, sizeof(constCharIP));
 	boolean state = client->connect(constCharIP, port);
 #endif

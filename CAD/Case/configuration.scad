@@ -114,6 +114,41 @@ module components_negative() {
             cube([14,0.5*INCH,0.7*INCH]);
         }
     }
+//    rotate([10,00,00]) {
+//        translate([-100,-35.6/2-0.05*INCH,25]) {
+//            cube([200,50,3]);
+//        }
+//    }
+//    rotate([10,00,00]) {
+//        translate([-100,-35.6/2-0.05*INCH,15]) {
+//            sphere([200,50,3]);
+//        }
+//    }     
+    rotate([0,90,00]) {
+        translate([-25,-25,-85]) {
+            cylinder(h=200, r=5);
+        }
+    }   
+    rotate([0,90,00]) {
+        translate([-25,-8.5,-85]) {
+            cylinder(h=200, r=5);
+        }
+    }      
+//    rotate([0,90,00]) {
+//        translate([-25,0,-85]) {
+//            cylinder(h=200, r=4);
+//        }
+//    }   
+    rotate([0,90,00]) {
+        translate([-25,8.5,-85]) {
+            cylinder(h=200, r=5);
+        }
+    } 
+    rotate([0,90,00]) {
+        translate([-25,25,-85]) {
+            cylinder(h=200, r=5);
+        }
+    }       
 }
 
 // Extra material for the top part, like walls and LED holders
